@@ -1,2 +1,4 @@
-# cuperfluid
-Cuperfluid - A customised version of superfluid streams
+### Cuperfluid
+- Cuperfluid is a customised version of [superfluid](https://www.superfluid.finance/) constant streams
+
+Made by [Manav Darji](https://github.com/manav2401) and [Shyam Patel](https://github.com/shyam-patel-kira/) with :blue_heart: at ETHOnline'21
