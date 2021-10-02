@@ -19,17 +19,13 @@
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
-    "@types/chai": "^4.2.22",
-    "@types/mocha": "^9.0.0",
-    "@types/node": "^16.10.2",
+    "chai": "^4.3.4",
     "ethereum-waffle": "^3.4.0",
     "ethers": "^5.4.7",
     "hardhat": "^2.6.4",
     "prettier": "^2.4.1",
     "prettier-plugin-solidity": "^1.0.0-beta.18",
-    "solhint": "^3.3.6",
-    "ts-node": "^10.2.1",
-    "typescript": "^4.4.3"
+    "solhint": "^3.3.6"
   },
   "dependencies": {
     "@chainlink/contracts": "^0.2.2",

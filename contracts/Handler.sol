@@ -56,4 +56,8 @@ contract Handler is ChainlinkClient {
     {
         id = _id;
     }
+
+    function getId() public returns (uint256) {
+        return id;
+    }
 }
