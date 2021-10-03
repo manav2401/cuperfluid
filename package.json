@@ -4,7 +4,8 @@
   "description": "cuperfluid - a customised version of superfluid constant streams",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "deploy-chainlink:mumbai": "npx hardhat run scripts/chainlink-deploy.js --network mumbai",
+    "test-chainlink:mumbai": "npx hardhat run scripts/make-chainlink-request.js --network mumbai"
   },
   "repository": {
     "type": "git",
