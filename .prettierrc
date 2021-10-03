@@ -5,10 +5,20 @@
       "options": {
         "printWidth": 80,
         "tabWidth": 4,
-        "useTabs": false,
+        "useTabs": true,
         "singleQuote": false,
         "bracketSpacing": false,
         "explicitTypes": "always"
+      }
+    },
+    {
+      "files": "*.js",
+      "options": {
+        "printWidth": 80,
+        "tabWidth": 4,
+        "useTabs": true,
+        "singleQuote": false,
+        "bracketSpacing": false
       }
     }
   ]
