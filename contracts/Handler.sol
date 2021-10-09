@@ -8,8 +8,32 @@ import "@chainlink/contracts/src/v0.7/ChainlinkClient.sol";
 contract Handler is ChainlinkClient {
 	using Chainlink for Chainlink.Request;
 
+	// solhint-disable-next-line state-visibility
+	address constant SUPERDAI = address(0);
+
 	uint256 public id;
-	bool public result;
+
+	// cuperfluid stream object
+	struct Stream {
+		uint96 id;
+		address sender;
+		address receiver;
+		int96 flowRate;
+		uint96 startTime;
+		uint96 numberOfCheckpoints;
+		uint96 checkpointInterval;
+		uint96 iteration;
+		string proofOfWorkEndpoint;
+		string accessToken;
+		address tokenAddress;
+		bool isActive;
+	}
+	// Stream id to Stream object mapping
+	mapping(uint96 => Stream) private streams;
+	// Stream id to Checkpoint Iteration to RequestId mapping
+	mapping(uint96 => mapping(uint96 => bytes32)) private requests;
+	// RequestId to response mapping
+	mapping(bytes32 => bool) private results;
 
 	// chainlink params
 	address private oracle;
@@ -55,7 +79,16 @@ contract Handler is ChainlinkClient {
 	/**
 	 * Fetch Proof Of Work
 	 */
-	function fetchProofOfWork() public returns (bytes32 requestId) {
+	function fetchProofOfWork(uint96 _id)
+		public
+		returns (bytes32 requestId, uint96 iteration)
+	{
+		require(_id < id, "invalid id");
+		Stream memory stream = streams[_id];
+		if (stream.iteration == stream.numberOfCheckpoints) {
+			// stop stream
+			break;
+		}
 		Chainlink.Request memory request = buildChainlinkRequest(
 			jobId,
 			address(this),
@@ -64,11 +97,55 @@ contract Handler is ChainlinkClient {
 		// Set the URL to perform the GET request on
 		// NOTE: If this oracle gets more than 5 requests from this job at a time, it will not return.
 		// replace the sender's server url here
-		request.add(
-			"get",
-			"https://secure-fortress-91179.herokuapp.com/validate?token=5c03fe67f60a8dcbc5df674f0a8df8f2&from=1&to=1"
+
+		/* solhint-disable not-rely-on-time */
+		string
+			memory url = "https://secure-fortress-91179.herokuapp.com/validate?token=" +
+				stream.accessToken +
+				"&from=" +
+				(stream.startTime + (stream.iteration * stream.checkpoint)) +
+				"&to=" +
+				stream.startTime +
+				((stream.iteration + 1) * stream.checkpoint);
+		/* solhint-enable not-rely-on-time */
+		request.add("get", url);
+		bytes32 requestId = sendChainlinkRequestTo(oracle, request, fee);
+		requests[stream.id][iteration] = requestId;
+		streams[_id].iteration++;
+		return (requestId, streams[_id].iteration - 1);
+	}
+
+	/**
+	 * Creates a new stream
+	 */
+	function createStream(
+		address _receiver,
+		int96 _flowRate,
+		uint96 _numberOfCheckpoints,
+		uint96 _numberOfCheckpoints,
+		string memory _proofOfWorkEndpoint,
+		string memory _accessToken
+	) public {
+		require(address(_receiver) != address(0), "invalid receiver address");
+		// Create a superfluid stream from sender to contract and on 1st checkpoint contract to receiver;
+		// solhint-disable-next-line not-rely-on-time
+		uint96 startTime = block.timestamp;
+		Stream memory stream = Stream(
+			id,
+			msg.sender,
+			_receiver,
+			_flowRate,
+			startTime,
+			_numberOfCheckpoints,
+			_numberOfCheckpoints,
+			0,
+			_proofOfWorkEndpoint,
+			_accessToken,
+			SUPERDAI,
+			true
 		);
-		return sendChainlinkRequestTo(oracle, request, fee);
+		streams[id] = stream;
+		id++;
 	}
 
 	/**
@@ -78,19 +155,6 @@ contract Handler is ChainlinkClient {
 		public
 		recordChainlinkFulfillment(_requestId)
 	{
-		result = _result;
-	}
-
-	function getResult() public view returns (bool) {
-		return result;
-	}
-
-	function setId(uint256 _id) public returns (uint256) {
-		id = _id;
-		return id;
-	}
-
-	function getId() public view returns (uint256) {
-		return id;
+		results[_requestId] = _result;
 	}
 }
