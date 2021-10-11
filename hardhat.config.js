@@ -1,5 +1,5 @@
 require("@nomiclabs/hardhat-waffle");
-require("dotenv").config()
+require("dotenv").config();
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -20,12 +20,14 @@ const PRIVATE_KEY = process.env.PRIVATE_KEY || "";
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-  defaultNetwork: "mumbai",
-  networks: {
-    mumbai: {
-      url: "https://rpc-mumbai.maticvigil.com",
-      accounts: [PRIVATE_KEY],
-    }
-  },
-  solidity: "0.7.6",
+	defaultNetwork: "mumbai",
+	networks: {
+		mumbai: {
+			url: "https://rpc-mumbai.maticvigil.com",
+			accounts: [PRIVATE_KEY],
+			gas: 2100000,
+			gasPrice: 8000000000,
+		},
+	},
+	solidity: "0.8.0",
 };
