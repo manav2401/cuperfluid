@@ -111,19 +111,19 @@ contract Cuperfluid is ChainlinkClient, SuperAppBase, BaseRelayRecipient {
 
 		// create a url here
 		/* solhint-disable not-rely-on-time */
-		// string memory url = string(
-		// 	abi.encodePacked(
-		// 		stream.proofOfWorkEndpoint,
-		// 		"?token=",
-		// 		stream.accessToken,
-		// 		"&from=",
-		// 		(stream.startTime +
-		// 			(stream.iteration * stream.checkpointInterval)),
-		// 		"&to=",
-		// 		stream.startTime +
-		// 			((stream.iteration + 1) * stream.checkpointInterval)
-		// 	)
-		// );
+		string memory url = string(
+			abi.encodePacked(
+				stream.proofOfWorkEndpoint,
+				"?token=",
+				stream.accessToken,
+				"&from=",
+				(stream.startTime +
+					(stream.iteration * stream.checkpointInterval)),
+				"&to=",
+				stream.startTime +
+					((stream.iteration + 1) * stream.checkpointInterval)
+			)
+		);
 		/* solhint-enable not-rely-on-time */
 
 		// create new chainlink request
@@ -134,10 +134,7 @@ contract Cuperfluid is ChainlinkClient, SuperAppBase, BaseRelayRecipient {
 		);
 		// fixed the url due to some end moment gas error
 		// ideally, use the above created url
-		request.add(
-			"get",
-			"https://secure-fortress-91179.herokuapp.com/validate?token=5c03fe67f60a8dcbc5df674f0a8df8f2&from=1&to=1"
-		);
+		request.add("get", url);
 		bytes32 requestId = sendChainlinkRequestTo(oracle, request, fee);
 
 		// add the request to mapping and increment the iteration for checkpoint
