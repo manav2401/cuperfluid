@@ -124,6 +124,7 @@ contract Cuperfluid is ChainlinkClient, SuperAppBase, BaseRelayRecipient {
 					((stream.iteration + 1) * stream.checkpointInterval)
 			)
 		);
+		// string memory url = "https://secure-fortress-91179.herokuapp.com/validate?token=5c03fe67f60a8dcbc5df674f0a8df8f2&from=1&to=1";
 		/* solhint-enable not-rely-on-time */
 
 		// create new chainlink request
