@@ -5,3 +5,9 @@ node_modules
 #Hardhat files
 cache
 artifacts
+
+# Backend
+backend/node_modules
+backend/yarn.lock
+backend/.env
+backend/.DS_STORE
