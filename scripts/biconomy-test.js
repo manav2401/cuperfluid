@@ -6,17 +6,18 @@ const Cuperfluid = require("../artifacts/contracts/Cuperfluid.sol/Cuperfluid.jso
 async function main() {
 	const privateKey = process.env.PRIVATE_KEY;
 	const apiKey = process.env.BICONOMY_API_KEY;
-	const cuperfluidContractAddress =
-		"0xc5610779AC3Ba6Af90aBfd9C345e7f936cA63656";
-	const userAddress = "0x0997F9a8647CA45Ab697886143f4353C614e1D7A";
+	const cuperfluidContractAddress = process.env.CUPERFLUID_CONTRACT_ADDRESS;
+	const userAddress = process.env.USER_ADDRESS;
 	const fDAIx = "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f";
 	const receiver = "0xdA7773E91a396d592AD33146164dA6d7d2Fda9B6";
 	const flowRate = 385802469135802;
 	const numberOfCheckpoints = 10;
 	const checkpointInterval = 3600;
-	const endpoint = "https://secure-fortress-91179.herokuapp.com/validate";
+	const endpoint =
+		process.env.BACKEND_ENDPOINT ||
+		"https://secure-fortress-91179.herokuapp.com/validate";
 	const token = "5c03fe67f60a8dcbc5df674f0a8df8f2";
-	const address = "0x0997F9a8647CA45Ab697886143f4353C614e1D7A";
+	const address = process.env.USER_ADDRESS;
 
 	const provider = new ethers.providers.JsonRpcProvider(
 		"https://rpc-mumbai.maticvigil.com"

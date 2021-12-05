@@ -27,23 +27,23 @@ let endStream = false;
 async function main() {
 	console.log("Starting `Sender` Simulation");
 
-	// constants
-	const privateKey = process.env.PRIVATE_KEY || "";
+	// env vars
+	const privateKey = process.env.USER_PRIVATE_KEY || "";
 	const apiKey = process.env.BICONOMY_API_KEY;
-	const userAddress = "0x0997F9a8647CA45Ab697886143f4353C614e1D7A";
-	const cuperfluidContractAddress =
-		"0x921B1DBd4A075E9ad2686E480540F3a07C4A6553";
+	const userAddress = process.env.USER_ADDRESS;
+	const cuperfluidContractAddress = process.env.CUPERFLUID_CONTRACT_ADDRESS;
+	const receiver = process.env.RECEIVER_ADDRESS;
+	const endpoint = process.env.BACKEND_ENDPOINT || "https://secure-fortress-91179.herokuapp.com/validate";
+	// constant addresses
+	const token = "5c03fe67f60a8dcbc5df674f0a8df8f2";
 	const superfluidContractAddress =
-		"0xEB796bdb90fFA0f28255275e16936D25d3418603";
+	"0xEB796bdb90fFA0f28255275e16936D25d3418603";
 	const cfaContractAddress = "0x49e565Ed1bdc17F3d220f72DF0857C26FA83F873";
 	const fDAIx = "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f";
-	const receiver = "0xa5a782A2b2BE73421F75774186d4f8f1aAbca2C4";
+	// constants
 	const flowRate = 385802469135802; // denotes tokens per sec, equates to 1010 tokens / month
 	const numberOfCheckpoints = 10;
 	const checkpointInterval = 60000;
-	const endpoint = "https://secure-fortress-91179.herokuapp.com/validate";
-	const token = "5c03fe67f60a8dcbc5df674f0a8df8f2";
-
 	// provider and wallet
 	const provider = new ethers.providers.JsonRpcProvider(
 		"https://rpc-mumbai.maticvigil.com"

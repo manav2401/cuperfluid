@@ -15,6 +15,7 @@ require("dotenv").config();
 // Go to https://hardhat.org/config/ to learn more
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY || "";
+const rpcProvider = process.env.RPC_PROVIDER_ENDPOINT;
 
 /**
  * @type import('hardhat/config').HardhatUserConfig
@@ -23,10 +24,10 @@ module.exports = {
 	defaultNetwork: "mumbai",
 	networks: {
 		mumbai: {
-			url: "https://rpc-mumbai.maticvigil.com",
+			url: rpcProvider,
 			accounts: [PRIVATE_KEY],
-			gas: 2100000,
-			gasPrice: 8000000000,
+			gas: 6721975,
+			gasPrice: 20000000000,
 		},
 	},
 	solidity: "0.8.0",
