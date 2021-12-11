@@ -39,7 +39,7 @@ function exactStream(express, db) {
 				});
 				res.status(200).json(response);
 			} catch (error) {
-				res.status(422).json({message: "Missing address"});
+				res.status(422).json({message: "Unable to fetch streams"});
 			}
 		} else {
 			res.status(422).json({message: "Missing address"});
