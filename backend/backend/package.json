@@ -1,0 +1,22 @@
+{
+  "name": "cuperfluid-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "server": "nodemon index.js"
+  },
+  "dependencies": {
+    "@biconomy/mexa": "^2.0.24",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "ethers": "^5.5.2",
+    "express": "^4.17.1",
+    "mongodb": "^4.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
