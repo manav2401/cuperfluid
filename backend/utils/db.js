@@ -1,12 +1,7 @@
-const mongoose = require("mongoose");
+const mongoClient = require("mongodb").MongoClient;
 
-const connect = (url) => {
-  return mongoose.connect(url, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-  });
-};
+const connect = (url, app) => {
+  return mongoClient.connect(url)
+}
 
 module.exports = connect;
