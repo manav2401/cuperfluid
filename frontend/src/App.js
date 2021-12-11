@@ -3,14 +3,13 @@ import Navbar from "./components/Navbar";
 import SuperfluidSDK from "@superfluid-finance/js-sdk";
 import { Web3Provider } from "@ethersproject/providers";
 import Details from "./components/Details";
-import NewFlow from "./components/NewFlow";
+import ExactStream from "./components/exact-stream/ExactStream";
 
 function App() {
-  // metamask injects .ethereum into window
   const windowWeb3 = window;
   const [address, setAddress] = useState("");
-  const [userDetails, setUserDetails] = useState();
-  const fUSDCx = "0x8ae68021f6170e5a766be613cea0d75236ecca9a";
+  const [user, setUser] = useState();
+  const fDAIx = "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f";
 
   const getDetails = useCallback(async () => {
     const sf = new SuperfluidSDK.Framework({
@@ -19,11 +18,9 @@ function App() {
     await sf.initialize();
     const user = sf.user({
       address,
-      token: fUSDCx,
+      token: fDAIx,
     });
-
-    const details = await user.details();
-    setUserDetails(details);
+    setUser(user);
   }, [address, windowWeb3.ethereum]);
 
   useEffect(() => {
@@ -44,15 +41,10 @@ function App() {
     <main>
       <Navbar />
       <div className="content">
-        {userDetails !== undefined ? (
+        {user !== undefined ? (
           <>
-            <Details
-              address={address}
-              netFlow={userDetails.cfa.netFlow}
-              inFlows={userDetails.cfa.flows.inFlows}
-              outFlows={userDetails.cfa.flows.outFlows}
-            />
-            <NewFlow address={address} token={fUSDCx} />
+            <Details address={address} token={"fDAIx"} />
+            <ExactStream address={address} token={fDAIx} />
           </>
         ) : (
           <div className="card">
