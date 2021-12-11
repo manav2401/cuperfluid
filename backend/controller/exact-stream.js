@@ -1,5 +1,6 @@
 // APIs for exact amount stream
 const {Db} = require("mongodb");
+const {fetchUserExactStreams} = require("./../utils/db");
 
 /**
  *
@@ -18,7 +19,8 @@ function exactStream(express, db) {
 		 * startDate (string)
 		 * endDate (string)
 		 * metatx (object)
-		 * status (string)
+		 * type (string / exact)
+		 * status (string / active)
 		 */
 		db.collection("exact-streams").insertOne({
 			...req.body,
@@ -29,9 +31,7 @@ function exactStream(express, db) {
 	router.get("/exact-streams", async (req, res) => {
 		if (req.query.hasOwnProperty("address")) {
 			try {
-				const cursor = db.collection("exact-streams").find({
-					$or: [{from: req.query.address}, {to: req.query.address}],
-				});
+				const cursor = await fetchUserExactStreams(db, req.query.address);
 				const response = [];
 				await cursor.forEach((doc) => {
 					const {metaTx, ...rest} = doc;
